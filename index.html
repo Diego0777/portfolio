@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diego Massat | Portfolio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            /* --- PALETTE "FOREST & STONE" --- */
+            
+            /* FOND : Texture moderne riche et intéressante */
+            --bg-color: #fafaf9;
+            --bg-texture: 
+                linear-gradient(135deg, rgba(78, 160, 124, 0.04) 0%, rgba(82, 196, 161, 0.02) 50%, rgba(78, 160, 124, 0.04) 100%),
+                linear-gradient(45deg, #fafaf9 0%, #f5f8f6 50%, #fafaf9 100%);
+
+            /* COULEUR MAÎTRESSE : Vert Sapin Moderne */
+            --forest-deep: #0d3b2f;   /* Pour Nav, Footer, Titres forts - Plus profond */
+            --forest-light: #1e5a47;  /* Pour survol boutons - Vert riche */
+            
+            /* ACCENTS : Vert Émeraude et Teintes sophistiquées */
+            --sage: #c8f0e0;          /* Vert clair lumineux */
+            --sage-dark: #52c4a1;     /* Vert émeraude dynamique */
+            --accent: #8ba89f;        /* Gris-bleu professionnel */
+            --accent-light: #e0e8e3;  /* Gris-vert très clair */
+
+            /* TEXTES */
+            --text-main: #1b2621;     /* Presque noir, teinté de vert */
+            --text-muted: #52665e;    /* Gris vert pour le texte secondaire */
+            
+            /* CARTES */
+            --card-bg: #ffffff;
+            --card-bg-light: #f9f8f6;
+            --card-border: 1px solid rgba(26, 67, 50, 0.08);
+            --shadow: 0 4px 20px rgba(26, 67, 50, 0.06);
+            --shadow-hover: 0 15px 30px rgba(26, 67, 50, 0.12);
+        }
+
+        html { scroll-behavior: smooth; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-color);
+            background-image: var(--bg-texture);
+            background-attachment: fixed;
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 { font-family: 'Rajdhani', sans-serif; text-transform: uppercase; letter-spacing: 1px; color: var(--forest-deep); }
+        a { text-decoration: none; color: inherit; transition: 0.3s; }
+        ul { list-style: none; }
+
+        /* --- ANIMATIONS --- */
+        .reveal {
+            opacity: 0; transform: translateY(30px);
+            transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* --- NAV (VERT FORET) --- */
+        nav {
+            padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center;
+            background: var(--forest-deep); /* Barre verte solide */
+            position: sticky; top: 0; z-index: 1000;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; color: #fff; letter-spacing: 2px; font-family: 'Rajdhani', sans-serif; }
+        .logo span { color: var(--sage); } /* Accent clair */
+        
+        nav ul { display: flex; gap: 2rem; }
+        nav a { font-weight: 500; font-size: 1rem; color: #d1d5db; position: relative; }
+        nav a:hover { color: #fff; }
+        nav a::after {
+            content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; left: 0;
+            background: var(--sage); transition: width 0.3s;
+        }
+        nav a:hover::after { width: 100%; }
+
+        /* --- HEADER --- */
+        header {
+            min-height: 90vh; display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; padding: 2rem; position: relative;
+            background: linear-gradient(180deg, rgba(245, 245, 242, 0.8) 0%, rgba(216, 243, 220, 0.15) 50%, rgba(245, 245, 242, 0.8) 100%);
+        }
+        .profile-wrapper {
+            position: relative; width: 220px; height: 220px; margin-bottom: 2.5rem; flex-shrink: 0;
+        }
+        .profile-img {
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            border: 4px solid #fff;
+            box-shadow: var(--shadow-hover);
+            position: relative; z-index: 2;
+        }
+        /* Anneau décoratif vert - Pulse effect */
+        .ring {
+            position: absolute; inset: -20px; border: 3px solid var(--sage-dark); border-radius: 50%;
+            opacity: 0.6; animation: pulse 3s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.15); opacity: 0.2; }
+        }
+
+        h1 { 
+            font-size: 5rem; margin: 0; letter-spacing: 2px; line-height: 1.1; font-weight: 800;
+            color: var(--forest-deep);
+        }
+        .subtitle { 
+            font-size: 1.6rem; color: var(--forest-light);
+            margin-top: 1rem; font-weight: 600; letter-spacing: 2px; 
+        }
+        
+        .btn-main {
+            margin-top: 3rem; padding: 1rem 3.5rem;
+            background: var(--forest-deep); 
+            color: white; 
+            border: none;
+            font-family: 'Rajdhani', sans-serif; text-transform: uppercase;
+            letter-spacing: 2px; font-weight: 700; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(26, 67, 50, 0.3);
+            position: relative;
+        }
+        .btn-main:hover { 
+            transform: translateY(-5px) scale(1.05);
+            background: var(--forest-light);
+            box-shadow: 0 15px 35px rgba(26, 67, 50, 0.5);
+        }
+
+        /* --- COMPETENCES --- */
+        .section-container { max-width: 1100px; margin: 0 auto; padding: 6rem 2rem; }
+        
+        #skills { background: linear-gradient(180deg, rgba(245, 245, 242, 0) 0%, rgba(216, 243, 220, 0.1) 50%, rgba(245, 245, 242, 0) 100%); }
+        #projets { background: linear-gradient(180deg, rgba(232, 228, 216, 0.4) 0%, rgba(245, 245, 242, 0) 100%); }
+        #video { background: linear-gradient(180deg, rgba(245, 245, 242, 0) 0%, rgba(216, 243, 220, 0.08) 100%); }
+        
+        .section-title { 
+            font-size: 2.8rem; text-align: center; margin-bottom: 5rem; 
+            color: var(--forest-deep); position: relative;
+            padding-bottom: 1.5rem;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 80px; height: 4px; 
+            background: linear-gradient(90deg, var(--forest-deep), var(--sage-dark));
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; }
+
+        .skill-card {
+            background: var(--card-bg); 
+            border: 2px solid var(--sage);
+            border-left: 5px solid var(--forest-deep);
+            padding: 2.5rem; border-radius: 12px; 
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative;
+            box-shadow: 0 6px 25px rgba(26, 67, 50, 0.08);
+        }
+        .skill-card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            box-shadow: 0 20px 50px rgba(26, 67, 50, 0.2);
+            background: var(--card-bg-light);
+            border-left: 5px solid var(--sage-dark);
+        }
+        
+        .skill-card i { 
+            font-size: 2.5rem; 
+            color: var(--forest-deep);
+            margin-bottom: 1.5rem;
+            animation: pulse 3s ease-in-out infinite;
+        }
+        
+        .pn-ref { display: block; font-size: 0.8rem; color: var(--accent); font-weight: bold; letter-spacing: 1px; margin-bottom: 1.2rem; text-transform: uppercase; }
+        .skill-list li { margin-bottom: 0.8rem; padding-left: 1.5rem; position: relative; color: var(--text-muted); font-size: 1rem; }
+        .skill-list li::before { content: '•'; color: var(--forest-light); position: absolute; left: 0; font-size: 1.5rem; line-height: 1;}
+
+        /* --- TIMELINE --- */
+        .timeline { position: relative; padding: 2rem 0; }
+        .timeline-line {
+            position: absolute; left: 50%; top: 0; bottom: 0; width: 2px;
+            background: linear-gradient(180deg, var(--sage-dark) 0%, var(--accent) 50%, var(--sage-dark) 100%); 
+            transform: translateX(-50%);
+            box-shadow: 0 0 8px rgba(45, 106, 79, 0.3);
+        }
+
+        .project-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5rem; position: relative; width: 100%; }
+        
+        .card-project {
+            width: 45%; 
+            background: #f0f5f1; 
+            padding: 2.5rem; border-radius: 12px;
+            border: 2px solid rgba(45, 106, 79, 0.15); 
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative;
+            box-shadow: 0 6px 25px rgba(26, 67, 50, 0.08);
+        }
+        .card-project:hover { 
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 50px rgba(26, 67, 50, 0.2);
+            border-color: var(--sage-dark);
+            background: #e8f2eb;
+        }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+        
+        .project-logo {
+            width: 100px; height: 100px;
+            object-fit: contain; 
+            background: #fff; 
+            border: 1px solid #e5e7eb;
+            border-radius: 8px; padding: 10px;
+        }
+        
+        .timeline-dot {
+            position: absolute; left: 50%; width: 16px; height: 16px; background: #fff;
+            border: 4px solid var(--forest-deep); border-radius: 50%; transform: translateX(-50%); z-index: 2;
+        }
+
+        .left-col { width: 45%; text-align: right; }
+        .right-col { width: 45%; text-align: left; }
+        .spacer { width: 45%; }
+
+        .left-col .card-header { flex-direction: row-reverse; }
+        .left-col .project-logo { margin-left: 0; margin-right: 25px; }
+        .right-col .project-logo { margin-left: 25px; }
+
+        .date-tag { 
+            display: inline-block; padding: 6px 14px; border-radius: 4px; 
+            background: var(--sage); color: var(--forest-deep); 
+            font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; 
+        }
+        .date-tag.future { background: #fef3c7; color: #92400e; } /* Or ambré pour le futur */
+
+        .card-project p { color: var(--text-muted); font-size: 1rem; }
+        .card-project h3 { color: var(--forest-deep); font-size: 1.5rem; font-weight: 700; }
+        
+        /* --- BADGES DE COMPETENCES DANS LES PROJETS --- */
+        .skills-badges { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1.5rem; }
+        .skill-badge { display: inline-block; padding: 0.5rem 1rem; background: var(--sage-dark); color: white; border-radius: 20px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.3s; text-decoration: none; }
+        .skill-badge:hover { background: var(--forest-light); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(82, 196, 161, 0.3); }
+
+        /* --- PROJETS CLIQUABLES --- */
+        .project-clickable { cursor: pointer; transition: all 0.3s; }
+        .project-clickable:hover { transform: scale(1.02); }
+        .project-clickable .card-header::after { content: "📸 Voir les images"; position: absolute; top: 10px; right: 10px; background: var(--sage-dark); color: white; padding: 0.5rem 1rem; border-radius: 8px; font-size: 0.8rem; opacity: 0; transition: 0.3s; }
+        .project-clickable:hover .card-header::after { opacity: 1; }
+        
+        /* --- MODALE IMAGES PROJETS --- */
+        .project-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; padding: 20px; }
+        .project-modal.active { display: flex; }
+        .modal-gallery { position: relative; width: 100%; max-width: 800px; }
+        .modal-gallery img { width: 100%; max-height: 80vh; object-fit: contain; border-radius: 12px; box-shadow: 0 0 50px rgba(82, 196, 161, 0.4); }
+        .gallery-close { position: absolute; top: -50px; right: 0; color: white; font-size: 2rem; cursor: pointer; }
+        .gallery-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; width: 50px; height: 50px; border: none; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; border-radius: 4px; }
+        .gallery-nav:hover { background: var(--sage-dark); }
+        .gallery-prev { left: -70px; }
+        .gallery-next { right: -70px; }
+        .gallery-counter { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); color: white; font-weight: bold; }
+
+        .gallery-caption {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            color: white; padding: 20px; font-size: 0.95rem;
+            text-align: center; border-radius: 0 0 12px 12px;
+        }
+
+        /* --- VIDEO (STYLE MODALE) --- */
+        .video-wrapper {
+            position: relative; background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(10px);
+            border-radius: 24px; padding: 3rem; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+            align-items: center; border: 2px solid transparent; background-clip: padding-box;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+        }
+        .video-wrapper::before { content: ""; position: absolute; inset: -2px; z-index: -1; border-radius: 26px; background: linear-gradient(135deg, #1e5a47, #52c4a1, #c8f0e0); }
+        
+        .video-preview-btn {
+            position: relative; width: 100%; aspect-ratio: 16/9; background: url('IMAGE15.png') center/cover no-repeat;
+            border-radius: 16px; overflow: hidden; cursor: pointer; display: flex; justify-content: center; align-items: center;
+            border: 2px solid var(--sage-dark); transition: 0.4s;
+        }
+        .video-preview-btn:hover { transform: scale(1.03); box-shadow: 0 0 30px rgba(82, 196, 161, 0.4); }
+        .video-ui-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); display: flex; align-items: center; gap: 15px; }
+        .progress-bar { height: 4px; flex-grow: 1; background: rgba(255,255,255,0.3); border-radius: 2px; }
+        .progress-fill { width: 65%; height: 100%; background: var(--sage-dark); border-radius: 2px; }
+        .play-icon-center { font-size: 3.5rem; color: white; transition: 0.3s; }
+
+        /* --- MODALE VIDEO --- */
+        .video-modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 2000;
+            display: none; justify-content: center; align-items: center; padding: 20px;
+        }
+        .video-modal.active { display: flex; }
+        .modal-content { position: relative; width: 100%; max-width: 1000px; aspect-ratio: 16/9; }
+        .video-modal video { width: 100%; height: 100%; border-radius: 12px; box-shadow: 0 0 50px rgba(82, 196, 161, 0.3); }
+        .close-modal { position: absolute; top: -50px; right: 0; color: white; font-size: 2rem; cursor: pointer; }
+
+        /* --- FOOTER (Vert Forêt) --- */
+        footer { 
+            background: linear-gradient(135deg, var(--forest-deep) 0%, #0f342a 50%, var(--forest-deep) 100%); 
+            padding: 5rem 2rem; 
+            margin-top: 6rem; 
+            color: #f2f2ee; 
+            position: relative;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        }
+        .contact-container { max-width: 900px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+        
+        .contact-item { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; font-size: 1.1rem; color: #a3b1ad; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .contact-item:hover { color: var(--sage); transform: translateX(8px) scale(1.05); }
+        .contact-item i { color: var(--sage); font-size: 1.3rem;}
+
+        /* Formulaire sur fond foncé */
+        form input, form textarea { 
+            width: 100%; padding: 1rem; margin-bottom: 1rem; 
+            background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            color: white; border-radius: 4px; 
+            transition: 0.3s; font-family: 'Inter', sans-serif;
+        }
+        form input:focus, form textarea:focus {
+            outline: none; border-color: var(--sage);
+            background: rgba(255,255,255,0.1);
+        }
+        form button { 
+            width: 100%; padding: 1rem; 
+            background: #fff; 
+            color: var(--forest-deep);
+            border: none; font-weight: 700; cursor: pointer; text-transform: uppercase; 
+            transition: 0.3s; border-radius: 4px; letter-spacing: 1px; font-family: 'Rajdhani', sans-serif;
+        }
+        form button:hover { background: var(--sage); }
+
+        @media (max-width: 768px) {
+            .project-row { flex-direction: column; margin-bottom: 3rem;}
+            .card-project { width: 100%; margin-bottom: 1rem; }
+            .spacer, .timeline-line, .timeline-dot { display: none; }
+            .video-layout, .contact-container { grid-template-columns: 1fr; }
+            .left-col .card-header { flex-direction: row; }
+            .left-col .project-logo { margin-left: 20px; margin-right: 0; }
+            .left-col { text-align: left; }
+            h1 { font-size: 3.5rem; }
+            nav { padding: 1rem; }
+            nav ul { gap: 1rem; }
+            nav a { font-size: 0.9rem; }
+            .project-logo { width: 80px; height: 80px; }
+            .video-layout { padding: 1.5rem; gap: 1.5rem;}
+            header { padding: 2rem 1rem; }
+            .profile-wrapper { width: 180px; height: 180px; margin-bottom: 1.5rem; }
+            .profile-img { border: 3px solid #fff; }
+            .ring { inset: -15px; border: 2px solid var(--sage-dark); }
+            p { font-size: 1rem; }
+            .subtitle { font-size: 1.3rem; }
+            .skills-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 2rem; }
+            .section-container { padding: 3rem 1rem; }
+            .contact-infos, form { width: 100%; }
+            footer { padding: 3rem 1rem; }
+        }
+        
+        @media (max-width: 480px) {
+            h1 { font-size: 2.5rem; }
+            .subtitle { font-size: 1.1rem; }
+            nav { padding: 0.75rem; flex-direction: column; gap: 0.5rem; }
+            nav ul { flex-direction: column; gap: 0.5rem; width: 100%; }
+            nav a { font-size: 0.85rem; }
+            .logo { font-size: 1.2rem; }
+            .section-title { font-size: 1.5rem; margin-bottom: 2rem; }
+            .section-container { padding: 2rem 0.75rem; }
+            .profile-wrapper { width: 150px; height: 150px; }
+            .skill-card { padding: 1.5rem; }
+            .btn-main { padding: 0.8rem 2rem; font-size: 0.9rem; }
+            .contact-container { gap: 2rem; }
+            .contact-item { font-size: 0.95rem; }
+            header { min-height: auto; padding: 1.5rem 0.75rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">PORTFOLIO <span> DIEGO MASSAT </span></div>
+        <ul>
+            <li><a href="#accueil">Accueil</a></li>
+            <li><a href="#skills">Compétences</a></li>
+            <li><a href="#projets">Projets</a></li>
+            <li><a href="#video">Vidéo</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header id="accueil">
+        <div class="profile-wrapper reveal">
+            <img src="photo_diego.jpg" alt="Diego Massat" class="profile-img">
+            <div class="ring"></div>
+        </div>
+        <h1 class="reveal" style="transition-delay: 0.1s;">Diego Massat</h1>
+        <p class="subtitle reveal" style="transition-delay: 0.2s;">DATA & GESTION DE DONNÉES</p>
+        <p class="reveal" style="max-width: 700px; margin-top: 1.5rem; color: var(--text-muted); font-size:1.05rem; line-height: 1.8; transition-delay: 0.3s;">
+Actuellement en cursus Informatique (AGED) à l'IUT de Toulouse, je conçois des solutions logicielles et des outils décisionnels performants. Ma maîtrise de SQL, Python et Power BI, couplée à une méthodologie Agile, me permet d'optimiser la gestion de bases de données et de transformer la donnée brute en tableaux de bord stratégiques.        </p>
+        <a href="CV_Diego_Massat_Alternance.pdf" target="_blank" class="btn-main reveal" style="transition-delay: 0.4s;">
+            <i class="fa-solid fa-download"></i> Voir mon CV
+        </a>
+    </header>
+
+    <section id="skills" class="section-container">
+        <h2 class="section-title reveal">Expertise Technique</h2>
+        
+        <div class="skills-grid">
+            
+            <div class="skill-card reveal" id="skill-data" style="transition-delay: 0.1s;">
+                <i class="fa-solid fa-database"></i>
+                <h3>Data & Décisionnel</h3>
+                <span class="pn-ref">ADMINISTRER & GÉRER</span>
+                <ul class="skill-list">
+                    <li>Bases de données (SQL, PL/SQL, NoSQL)</li>
+                    <li>Business Intelligence (Power BI)</li>
+                    <li>ETL & Nettoyage (Knime, Pandas)</li>
+                    <li>Valorisation de données</li>
+                </ul>
+            </div>
+
+            <div class="skill-card reveal" id="skill-dev" style="transition-delay: 0.2s;">
+                <i class="fa-solid fa-code"></i>
+                <h3>Développement</h3>
+                <span class="pn-ref">RÉALISER & OPTIMISER</span>
+                <ul class="skill-list">
+                    <li>Dév. Objet (Java) & Scripts (Python)</li>
+                    <li>Web : HTML, CSS, PHP, JS</li>
+                    <li>API REST Sécurisées (JSON, JWT)</li>
+                    <li>Versionning Git & GitHub</li>
+                </ul>
+            </div>
+
+            <div class="skill-card reveal" id="skill-gestion" style="transition-delay: 0.3s;">
+                <i class="fa-solid fa-diagram-project"></i>
+                <h3>Gestion de Projet</h3>
+                <span class="pn-ref">CONDUIRE & COLLABORER</span>
+                <ul class="skill-list">
+                    <li>Méthode Agile SCRUM</li>
+                    <li>Anglais Technique (B2)</li>
+                    <li>Travail d'équipe & Rigueur</li>
+                    <li>Adaptabilité en entreprise</li>
+                </ul>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="projets" class="section-container">
+        <h2 class="section-title reveal">Mon Parcours</h2>
+        <div class="timeline">
+            <div class="timeline-line"></div>
+
+            <div class="project-row reveal">
+                <div class="card-project left-col">
+                    <div class="card-header">
+                        <div>
+                            <span class="date-tag future">Mars 2026 - Juin 2026</span>
+                            <h3>Laboratoire Phodé</h3>
+                        </div>
+                        <img src="IMAGE1.png" alt="Logo Phodé" class="project-logo">
+                    </div>
+                    <p><strong>Stage Fin d'Études :</strong> Migration stratégique de reporting (MyReport vers Power BI) et développement d'outils internes sous WINDEV.</p>
+                    <div class="skills-badges">
+                        <a href="#skill-data" class="skill-badge">Business Intelligence</a>
+                        <a href="#skill-dev" class="skill-badge">Développement</a>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+                <div class="spacer"></div>
+            </div>
+
+            <div class="project-row reveal">
+                <div class="spacer"></div>
+                <div class="timeline-dot"></div>
+                <div class="card-project right-col">
+                    <div class="card-header">
+                        <div>
+                            <span class="date-tag">Avril 2025 - Juin 2025</span>
+                            <h3>Forterro France</h3>
+                        </div>
+                        <img src="IMAGE2.png" alt="Logo Forterro" class="project-logo">
+                    </div>
+                    <p><strong>Stage Technique :</strong> Optimisation et sécurisation logicielle en vue d'une montée de version majeure. Correction d'anomalies et maintenance.</p>
+                    <div class="skills-badges">
+                        <a href="#skill-dev" class="skill-badge">Développement</a>
+                        <a href="#skill-gestion" class="skill-badge">Agile SCRUM</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-row reveal">
+                <div class="card-project left-col project-clickable" onclick="openProjectGallery('open-food-facts')">
+                    <div class="card-header">
+                        <div>
+                            <span class="date-tag">Projet Universitaire</span>
+                            <h3>Open Food Facts BI</h3>
+                        </div>
+                        <img src="IMAGE3.png" alt="Logo Data" class="project-logo">
+                    </div>
+                    <p>Extraction de données massives, traitement ETL via KNIME et création de Dashboards interactifs sur Power BI. Le but était de visualiser et de faire des prédictions sur le nutriscore via un grand nombre de données nutritionnelles.</p>
+                    <div class="skills-badges">
+                        <a href="#skill-data" class="skill-badge">Data & Décisionnel</a>
+                        <a href="#skill-data" class="skill-badge">Power BI</a>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+                <div class="spacer"></div>
+            </div>
+
+            <div class="project-row reveal">
+                <div class="spacer"></div>
+                <div class="timeline-dot"></div>
+                <div class="card-project right-col project-clickable" onclick="openProjectGallery('api-sport')">
+                    <div class="card-header">
+                        <div>
+                            <span class="date-tag">Projet Universitaire</span>
+                            <h3>API Sport Management</h3>
+                        </div>
+                        <img src="IMAGE4.png" alt="Logo API" class="project-logo">
+                    </div>
+                    <p>Conception d'une API REST avec un site internet sécurisé (JWT). Gestion complète d'une saison sportive de football a 5 (équipes, matchs, notes) avec architecture optimisée.</p>
+                    <div class="skills-badges">
+                        <a href="#skill-dev" class="skill-badge">API REST</a>
+                        <a href="#skill-dev" class="skill-badge">Sécurité</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="project-row reveal">
+                <div class="card-project left-col project-clickable" onclick="openProjectGallery('app-immobiliere')">
+                    <div class="card-header">
+                        <div>
+                            <span class="date-tag">Projet Universitaire</span>
+                            <h3>App. Immobilière</h3>
+                        </div>
+                        <img src="IMAGE5.png" alt="Logo Java" class="project-logo">
+                    </div>
+                    <p>Application JAVA de gestion immobilière qui permettais d'avoir le contrôle sur les contrats, les locataires, les factures et d'autres. Projet réalisé en équipe complète sous méthodologie Agile SCRUM.</p>
+                    <div class="skills-badges">
+                        <a href="#skill-dev" class="skill-badge">Java</a>
+                        <a href="#skill-gestion" class="skill-badge">Agile SCRUM</a>
+                    </div>
+                </div>
+                <div class="timeline-dot"></div>
+                <div class="spacer"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="video" class="section-container">
+        <h2 class="section-title reveal">CV Vidéo</h2>
+        <div class="video-wrapper reveal">
+            <div class="video-text">
+                <h3>Présentation & Objectifs</h3>
+                <p>
+                    Dans le cadre de mon Projet Personnel et Professionnel (S5), j'ai réalisé ce support vidéo pour appuyer ma candidature en alternance pour un <strong>Master MIAGE</strong>. Je présente mon parcours en analyse de données et ma motivation pour poursuivre dans ce domaine en entreprise.
+                </p>
+            </div>
+            <div class="video-preview-btn" id="openVideoBtn">
+                <i class="fa-solid fa-play play-icon-center"></i>
+                <div class="video-ui-overlay">
+                    <i class="fa-solid fa-pause" style="color: white; font-size: 0.9rem;"></i>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <span style="color: white; font-size: 0.8rem;">01:53</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="project-modal" id="modal-open-food-facts">
+        <div class="modal-gallery">
+            <span class="gallery-close" onclick="closeProjectGallery('open-food-facts')">&times;</span>
+            <button class="gallery-nav gallery-prev" onclick="prevImage('open-food-facts')">&#10094;</button>
+            <img id="img-open-food-facts" src="IMAGE11.png" alt="Open Food Facts BI" />
+            <div class="gallery-caption" id="caption-open-food-facts"></div>
+            <span class="gallery-counter"><span id="counter-open-food-facts">1</span>/4</span>
+            <button class="gallery-nav gallery-next" onclick="nextImage('open-food-facts')">&#10095;</button>
+        </div>
+    </div>
+
+    <div class="project-modal" id="modal-api-sport">
+        <div class="modal-gallery">
+            <span class="gallery-close" onclick="closeProjectGallery('api-sport')">&times;</span>
+            <button class="gallery-nav gallery-prev" onclick="prevImage('api-sport')">&#10094;</button>
+            <img id="img-api-sport" src="IMAGE6.png" alt="API Sport Management" />
+            <div class="gallery-caption" id="caption-api-sport"></div>
+            <span class="gallery-counter"><span id="counter-api-sport">1</span>/2</span>
+            <button class="gallery-nav gallery-next" onclick="nextImage('api-sport')">&#10095;</button>
+        </div>
+    </div>
+
+    <div class="project-modal" id="modal-app-immobiliere">
+        <div class="modal-gallery">
+            <span class="gallery-close" onclick="closeProjectGallery('app-immobiliere')">&times;</span>
+            <button class="gallery-nav gallery-prev" onclick="prevImage('app-immobiliere')">&#10094;</button>
+            <img id="img-app-immobiliere" src="IMAGE8.png" alt="App. Immobilière" />
+            <div class="gallery-caption" id="caption-app-immobiliere"></div>
+            <span class="gallery-counter"><span id="counter-app-immobiliere">1</span>/3</span>
+            <button class="gallery-nav gallery-next" onclick="nextImage('app-immobiliere')">&#10095;</button>
+        </div>
+    </div>
+
+    <div class="video-modal" id="videoModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeVideoBtn">&times; Fermer</span>
+            <video id="mainVideo" controls>
+                <source src="MASSAT_D - CV VIDÉO.mp4" type="video/mp4">
+                Votre navigateur ne supporte pas la vidéo.
+            </video>
+        </div>
+    </div>
+
+    <footer id="contact">
+        <div class="contact-container">
+            <div class="contact-infos reveal">
+                <h3 style="font-family:'Rajdhani'; font-size: 2.2rem; margin-bottom: 2rem; color: #fff;">Intéressé?&nbsp;Contactez&#8209;moi</h3>
+                <a href="tel:0698408147" class="contact-item"><i class="fa-solid fa-phone"></i> 06 98 40 81 47</a>
+                <a href="mailto:diegomassat@outlook.fr" class="contact-item"><i class="fa-solid fa-envelope"></i> diegomassat@outlook.fr</a>
+                <a href="https://www.linkedin.com/in/diego-massat-3a8492331" target="_blank" class="contact-item"><i class="fa-brands fa-linkedin"></i> linkedin.com/in/diego-massat</a>
+                <a href="https://github.com/diego0777" target="_blank" class="contact-item"><i class="fa-brands fa-github"></i> github.com/diego0777</a>
+            </div>
+            
+            <form action="mailto:diegomassat@outlook.fr" method="post" enctype="text/plain" class="reveal" style="transition-delay: 0.2s;">
+                <input type="text" name="name" placeholder="Nom / Entreprise" required>
+                <input type="email" name="email" placeholder="Email professionnel" required>
+                <textarea name="msg" rows="4" placeholder="Votre message..." required></textarea>
+                <button type="submit">Envoyer le message</button>
+            </form>
+        </div>
+        <p style="text-align: center; margin-top: 4rem; opacity: 0.4; font-size: 0.8rem;">&copy; 2026 Portfolio Diego Massat. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        const hiddenElements = document.querySelectorAll('.reveal');
+        hiddenElements.forEach((el) => observer.observe(el));
+
+        // --- GESTION DE LA MODALE VIDEO ---
+        const openBtn = document.getElementById('openVideoBtn');
+        const closeBtn = document.getElementById('closeVideoBtn');
+        const modal = document.getElementById('videoModal');
+        const video = document.getElementById('mainVideo');
+
+        // Ouvrir la modale
+        openBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            video.play(); // Lance la vidéo automatiquement
+            document.body.style.overflow = 'hidden'; // Empêche le scroll derrière
+        });
+
+        // Fonction pour fermer
+        const closeModal = () => {
+            modal.classList.remove('active');
+            video.pause(); // Arrête la vidéo
+            video.currentTime = 0; // Remet au début
+            document.body.style.overflow = 'auto'; // Réactive le scroll
+        };
+
+        // Fermer au clic sur le bouton X
+        closeBtn.addEventListener('click', closeModal);
+
+        // Fermer en cliquant en dehors de la vidéo (sur le fond noir)
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // --- GESTION DES MODALES PROJETS ---
+        const projectImages = {
+            'open-food-facts': ['IMAGE11.png', 'IMAGE12.png', 'IMAGE13.png', 'IMAGE14.png'],
+            'api-sport': ['IMAGE6.png', 'IMAGE7.png'],
+            'app-immobiliere': ['IMAGE8.png', 'IMAGE9.png', 'IMAGE10.png']
+        };
+
+        const projectCaptions = {
+            'open-food-facts': [
+                'Exemple de workflow KNIME pour l\'extraction et le traitement des données Open Food Facts.',
+                'Autre exemple de dashboard Power BI créé pour visualiser les données alimentaires. On y voit des analyses sur les additifs et labels.',
+                'Visualisation des données nutritionnelles par catégorie de produits dans Power BI.',
+                'Autre visualisation Power BI mettant en avant les pays producteurs et les tendances alimentaires.'
+            ],
+            'api-sport': [
+                'Page d\'accueil de l\'API Sport Management avec les différentes fonctionnalités disponibles.',
+                'Exemple de gestion des équipes et des joueurs via l\'API sécurisée.'
+            ],
+            'app-immobiliere': [
+                'Page d\'accueil de l\'application immobilière avec le tableau de bord principal.',
+                'Extrait de la gestion des locataire.',
+                'Procédure visuelle pour ajouter un locataire dans l\'application.'
+            ]
+        };
+
+        let currentImageIndex = {};
+
+        function openProjectGallery(projectId) {
+            const modal = document.getElementById(`modal-${projectId}`);
+            currentImageIndex[projectId] = 0;
+            modal.classList.add('active');
+            updateProjectImage(projectId);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProjectGallery(projectId) {
+            const modal = document.getElementById(`modal-${projectId}`);
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateProjectImage(projectId) {
+            const images = projectImages[projectId];
+            const captions = projectCaptions[projectId];
+            const currentIndex = currentImageIndex[projectId];
+            const img = document.getElementById(`img-${projectId}`);
+            const counter = document.getElementById(`counter-${projectId}`);
+            const caption = document.getElementById(`caption-${projectId}`);
+            
+            img.src = images[currentIndex];
+            counter.textContent = currentIndex + 1;
+            caption.textContent = captions[currentIndex];
+        }
+
+        function nextImage(projectId) {
+            const images = projectImages[projectId];
+            currentImageIndex[projectId] = (currentImageIndex[projectId] + 1) % images.length;
+            updateProjectImage(projectId);
+        }
+
+        function prevImage(projectId) {
+            const images = projectImages[projectId];
+            currentImageIndex[projectId] = (currentImageIndex[projectId] - 1 + images.length) % images.length;
+            updateProjectImage(projectId);
+        }
+
+        // Fermer les modales en cliquant en dehors
+        document.querySelectorAll('.project-modal').forEach(modal => {
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    const projectId = modal.id.replace('modal-', '');
+                    closeProjectGallery(projectId);
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
